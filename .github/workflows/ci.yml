@@ -11,14 +11,20 @@ jobs:
         - NAME: LLVM 12 Release
           TYPE: Release
           LLVM_VERSION: 12
-          RUN_ALL_TESTS: 1
+          RUN_TESTS: 0
+          RUN_ALL_TESTS: 0
+          STATIC_LINKING: ON
+          STATIC_LIBC: ON
           RUNTIME_TEST_DISABLE: probe.kprobe_offset_fail_size
           BASE: bionic
           VENDOR_GTEST: ON
         - NAME: LLVM 12 Release + libbpf
           TYPE: Release
           LLVM_VERSION: 12
-          RUN_ALL_TESTS: 1
+          RUN_TESTS: 0
+          RUN_ALL_TESTS: 0
+          STATIC_LINKING: ON
+          STATIC_LIBC: ON
           RUNTIME_TEST_DISABLE: probe.kprobe_offset_fail_size
           BASE: bionic
           VENDOR_GTEST: ON
@@ -67,6 +73,8 @@ jobs:
         -v /usr/src:/usr/src:ro
         -e RUN_TESTS=${RUN_TESTS}
         -e RUN_ALL_TESTS=${RUN_ALL_TESTS}
+        -e STATIC_LINKING=${STATIC_LINKING}
+        -e STATIC_LIBC=${STATIC_LIBC}
         -e RUN_MEMLEAK_TEST="${RUN_MEMLEAK_TEST}"
         -e CMAKE_EXTRA_FLAGS="${CMAKE_EXTRA_FLAGS}"
         -e RUNTIME_TEST_DISABLE="${RUNTIME_TEST_DISABLE}"
@@ -78,3 +86,7 @@ jobs:
         ${PWD}/build-$TYPE-$BASE
         $TYPE
         -j$(nproc)
+    - uses: actions/upload-artifact@v2
+      with:
+        name: bpftrace-${{ matrix.env['TYPE'] }}-${{ matrix.env['NAME'] }}
+        path: build/src/bpftrace
