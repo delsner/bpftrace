@@ -41,7 +41,7 @@ jobs:
         #   * the image configuration (ie llvm version & distro)
         #   * the hash of all the files in docker/
         key: ${{ runner.os }}-docker-cache-${{ steps.get-date.outputs.date }}-${{ env.NAME }}-${{ hashFiles('docker/**') }}
-    - name: Build docker container
+    - name: Build docker image
       if: steps.docker-cache.outputs.cache-hit != 'true'
       env: ${{matrix.env}}
       run: >
