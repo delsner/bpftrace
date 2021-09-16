@@ -233,14 +233,14 @@ static std::optional<struct timespec> get_boottime()
   // bytes. I've set the bar lower, in case your program has a deeper stack than
   // the one from my tests, in the hope that you'll get this instructive error
   // instead of getting the BPF verifier's error.
-  if (bpftrace.strlen_ > 200)
+  if (bpftrace.strlen_ > 220)
   {
     // the verifier errors you would encounter when attempting larger
     // allocations would be: >240=  <Looks like the BPF stack limit of 512 bytes
     // is exceeded. Please move large on stack variables into BPF per-cpu array
     // map.> ~1024= <A call to built-in function 'memset' is not supported.>
     LOG(ERROR) << "'BPFTRACE_STRLEN' " << bpftrace.strlen_
-               << " exceeds the current maximum of 200 bytes.\n"
+               << " exceeds the current maximum of 220 bytes.\n"
                << "This limitation is because strings are currently stored on "
                   "the 512 byte BPF stack.\n"
                << "Long strings will be pursued in: "
