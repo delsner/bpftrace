@@ -233,6 +233,7 @@ static std::optional<struct timespec> get_boottime()
   // bytes. I've set the bar lower, in case your program has a deeper stack than
   // the one from my tests, in the hope that you'll get this instructive error
   // instead of getting the BPF verifier's error.
+  // EDIT: We increase this to 220 bytes, which still seems to be no problem.
   if (bpftrace.strlen_ > 220)
   {
     // the verifier errors you would encounter when attempting larger
